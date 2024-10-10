@@ -1,3 +1,3 @@
-Run by calling app.py
+To run: python app.py
 
 still building this and updating
