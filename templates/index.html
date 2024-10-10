@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neural Network Thought Propagation</title>
+
+    <!-- Include Three.js and required libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/FirstPersonControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"></script>
+
+    <!-- Include the Perlin noise library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noisejs/2.0.0/perlin.min.js"></script>
+
+    <!-- Include the DigitalGlitch.js script as it's required by GlitchPass.js -->
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/DigitalGlitch.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/GlitchPass.js"></script>
+
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000000; }
+        #network { width: 100vw; height: 100vh; }
+        #controls {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+        /* Removed think-button as it's now triggered by spacebar */
+        #instructions {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #00ff00;
+            background-color: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        /* New Styles for Restart Button */
+        #corruption-message {
+            position: absolute;
+            bottom: 20px; /* Position at the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff0000;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px; /* Reduced padding for better fit */
+            border-radius: 20px;
+            text-align: center;
+            z-index: 200;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 30px #ff0000;
+            display: none; /* Hidden by default */
+        }
+        #corruption-message h1 {
+            margin-bottom: 15px; /* Reduced margin */
+            font-size: 24px; /* Increased font size */
+        }
+        #restart-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff4500;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        #restart-button:hover {
+            background-color: #ff6347;
+            box-shadow: 0 0 20px #ff6347;
+        }
+    </style>
+</head>
+<body>
+    <div id="network"></div>
+    <div id="controls">
+        <!-- Removed think button as it's now triggered by spacebar -->
+    </div>
+    <div id="instructions">
+        Use WASD to move, mouse to look around. Press the <strong>Spacebar</strong> to start thought propagation.
+    </div>
+
+    <!-- Restart Button moved to the bottom -->
+    <div id="corruption-message">
+        <h1>Corruption Detected</h1>
+        <button id="restart-button">RESTART</button>
+    </div>
+
+    <!-- Include our custom JavaScript -->
+    <script src="/static/js/network.js"></script>
+
+    <!-- Section: Script to Handle Restart Button Positioning -->
+    <script>
+        document.getElementById('restart-button').addEventListener('click', () => {
+            // Trigger "big bang" effect before restarting
+            triggerBigBangEffect();
+        });
+    </script>
+</body>
+</html>
